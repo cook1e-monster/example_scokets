@@ -7,42 +7,23 @@
     <script src="https://unpkg.com/jquery@3.1.1"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script>
-      var chat = function(data, writteInPage) {
-        socket(data, writteInPage)
-      }
+    //socket
+    var socket = function() {
+      var socket = io.connect('http://localhost:3000');
 
-      var chatRoomWritter = function(dataToWritte) {
-
-        if(dataToWritte.hello)
-          $('#chatroom').append("<p>"+dataToWritte.hello+"</p>")
-        else
-          $('#chatroom').append("<p>"+dataToWritte+"</p>")
-      }
+      //
+      socket.on('connect', function ( data ) {
+        socket.emit('recive', { 'my': 'hola como estas desde el cliente' });
+      });
 
 
+      //recive from server
+      socket.on('send', function( data ) {
+        console.log( data )
+      });
+    }
 
-      //socket
-      var socket = function( dataToSend ) {
-        var socket = io.connect('http://localhost:3000');
-
-        socket.on('send', function (data) {
-          chatRoomWritter( data )
-          socket.emit('recive', { 'my': dataToSend });
-        });
-      }
-
-
-      $(document).ready(function(){
-
-        $( "#chat" ).submit(function( event ) {
-          event.preventDefault();
-
-          var textToSend = $('#input-chat').val()
-          chat(textToSend, textToSend)
-
-        });
-      })
-      //chat('prueba de envio', writteInPage)
+    socket()
     </script>
 
 

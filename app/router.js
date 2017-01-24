@@ -16,8 +16,21 @@ app.get('/', function (req, res) {
 });
 
 
-//sockets
+
+var clients = [];
 io.on('connection', function (socket) {
-  socket.emit('send', { hello: 'world' }); //send data client
-  socket.on('recive', function (data) { console.log(data); }); //recive data client
-});
+  socket.iduser = clients.length + 1
+  clients.push(socket)
+
+  socket.on('recive', function ( data ) {
+    console.log(socket.iduser)
+    console.log(data)
+
+    clients.forEach(function( client ){
+      if( client.iduser !== socket.iduser ) {
+        client.emit( 'send', data )
+      }
+    })
+  })
+
+})
