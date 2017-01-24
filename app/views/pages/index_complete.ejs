@@ -4,13 +4,45 @@
     <meta charset="UTF-8">
     <title>Super Awesome</title>
 
+    <script src="https://unpkg.com/jquery@3.1.1"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script>
-      var socket = io.connect('http://localhost:3000');
-      socket.on('news', function (data) {
-        console.log(data);
-        socket.emit('my other event', { my: 'data' });
-      });
+      var chat = function(data, writteInPage) {
+        socket(data, writteInPage)
+      }
+
+      var chatRoomWritter = function(dataToWritte) {
+
+        if(dataToWritte.hello)
+          $('#chatroom').append("<p>"+dataToWritte.hello+"</p>")
+        else
+          $('#chatroom').append("<p>"+dataToWritte+"</p>")
+      }
+
+
+
+      //socket
+      var socket = function( dataToSend ) {
+        var socket = io.connect('http://localhost:3000');
+
+        socket.on('send', function (data) {
+          chatRoomWritter( data )
+          socket.emit('recive', { 'my': dataToSend });
+        });
+      }
+
+
+      $(document).ready(function(){
+
+        $( "#chat" ).submit(function( event ) {
+          event.preventDefault();
+
+          var textToSend = $('#input-chat').val()
+          chat(textToSend, textToSend)
+
+        });
+      })
+      //chat('prueba de envio', writteInPage)
     </script>
 
 
@@ -48,10 +80,22 @@
       </div>
 
 
-      <a href='#' onClick="javascript:socket.emit('Client 2 Server Message', 'return UPPERCASED in the console');">
-        return UPPERCASED in the console
-      </a>
+      <div>
+        <div>
+          <div id="chatroom"></div>
+        </div>
 
+        <div>
+          <form action="#" id='chat'>
+            <p>
+              <input type='text' id='input-chat' />
+            </p>
+            <p>
+              <input type="submit" value="send message"/>
+            </p>
+          </form>
+        </div>
+      </div>
 
     </main>
 

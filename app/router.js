@@ -1,6 +1,8 @@
 var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+var $ = require('jquery');
+
 
 server.listen(3000);
 
@@ -14,12 +16,8 @@ app.get('/', function (req, res) {
 });
 
 
-/*
-  socket connection for all
-*/
+//sockets
 io.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
-  });
+  socket.emit('send', { hello: 'world' }); //send data client
+  socket.on('recive', function (data) { console.log(data); }); //recive data client
 });
