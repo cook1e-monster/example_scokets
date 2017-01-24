@@ -4,19 +4,15 @@
     <meta charset="UTF-8">
     <title>Super Awesome</title>
 
-    <!-- load client sockets -->
-    <script type='text/javascript' src='http://localhost:3000/socket.io/socket.io.js'></script>
-
-    <!-- sockect logic in client -->
-    <script type='text/javascript'>
-      //conexion socket
-      var socket = io.connect(':3000');
-
-      // optionally use io('http://localhost:3000');
-      socket.on ('Server 2 Client Message', function(messageFromServer) {
-        console.log ('server said: ' + messageFromServer);
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io.connect('http://localhost:3000');
+      socket.on('news', function (data) {
+        console.log(data);
+        socket.emit('my other event', { my: 'data' });
       });
     </script>
+
 
 
     <!-- CSS (load bootstrap from a CDN) -->
@@ -56,7 +52,7 @@
         return UPPERCASED in the console
       </a>
 
-      
+
     </main>
 
     <footer>
