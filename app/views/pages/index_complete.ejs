@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Super Awesome</title>
+
+    <!-- load client sockets -->
+    <script type='text/javascript' src='http://localhost:3000/socket.io/socket.io.js'></script>
+
+    <!-- sockect logic in client -->
+    <script type='text/javascript'>
+      //conexion socket
+      var socket = io.connect(':3000');
+
+      // optionally use io('http://localhost:3000');
+      socket.on ('Server 2 Client Message', function(messageFromServer) {
+        console.log ('server said: ' + messageFromServer);
+      });
+    </script>
+
+
+    <!-- CSS (load bootstrap from a CDN) -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <style>
+        body    { padding-top:50px; }
+    </style>
+  </head>
+
+  <body class="container">
+    <header>
+      <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+              <span class="glyphicon glyphicon glyphicon-tree-deciduous"></span>
+              EJS Is Fun
+            </a>
+          </div>
+
+          <ul class="nav navbar-nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <div class="jumbotron">
+        <h1>This is great</h1>
+        <p>Welcome to templating using EJS</p>
+      </div>
+
+
+      <a href='#' onClick="javascript:socket.emit('Client 2 Server Message', 'return UPPERCASED in the console');">
+        return UPPERCASED in the console
+      </a>
+
+      
+    </main>
+
+    <footer>
+      <p class="text-center text-muted">© Copyright 2014 The Awesome People</p>
+    </footer>
+  </body>
+
+</html>

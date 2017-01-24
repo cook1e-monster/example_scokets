@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- LOAD SOCKET IO -->
+    <script type='text/javascript' src='http://localhost:3000/socket.io/socket.io.js'></script>
+
+    <script type='text/javascript'>
+      //conexion socket
+      var socket = io.connect(':3000');
+
+      // optionally use io('http://localhost:3000');
+      // but make *SURE* it matches the jScript src
+      socket.on ('Server 2 Client Message', function(messageFromServer) {
+        console.log ('server said: ' + messageFromServer);
+      });
+    </script>
+  </head>
+
+  <body>
+    <h5>Worlds smallest Socket.io example to uppercase strings</h5>
+    <p>
+      <a href='#' onClick="javascript:socket.emit('Client 2 Server Message', 'return UPPERCASED in the console');">
+        return UPPERCASED in the console
+      </a>
+      <br />
+      socket.emit('Client 2 Server Message', 'try cut/paste this command in your console!');
+    </p>
+  </body>
+</html>
